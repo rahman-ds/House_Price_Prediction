@@ -103,7 +103,7 @@
 <div class="card">
     <h2>House Price Prediction</h2>
 
-    <form method="POST">
+   <form method="POST">
 
       <label>BHK</label>
       <input type="number" name="bhk" placeholder="e.g. 2" required>
@@ -118,10 +118,11 @@
       <input type="number" name="sqft" placeholder="e.g. 1200" required>
 
       <label>Price per Sqft</label>
-      <input type="number" name="pricepersqft" placeholder="e.g. 6500" required>
+      <input type="number" name="pricepersqft" placeholder="e.g. 6000" required>
 
       <button type="submit">Predict Price</button>
-    </form>
+  </form>
+
 
 
     {% if prediction %}
@@ -135,10 +136,6 @@
             {{ error }}
         </div>
     {% endif %}
-
-    <footer>
-        Built with Flask & Machine Learning
-    </footer>
 </div>
 
 </body>
