@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-# ✅ Load files using joblib (NOT pickle)
+# ✅ ABSOLUTELY NO PICKLE HERE
 model = joblib.load("model.pkl")
 scaler = joblib.load("scaler.pkl")
 location_encoder = joblib.load("label_encoders/location_encoder.pkl")
@@ -24,17 +24,11 @@ def home():
             location = request.form["location"]
             property_type = request.form["propertytype"]
 
-            # Encode categorical values
             location_encoded = location_encoder.transform([location])[0]
             property_encoded = property_encoder.transform([property_type])[0]
 
-            # ✅ Features MUST match training order:
-            # ['bhk', 'propertytype', 'location', 'sqft', 'pricepersqft']
-            # But since pricepersqft was derived during training,
-            # we compute a dummy value here safely as 0
-            features = np.array([
-                [bhk, property_encoded, location_encoded, area, 0]
-            ])
+            # ✅ EXACT FEATURE COUNT = 5
+            features = np.array([[bhk, property_encoded, location_encoded, area, 0]])
 
             features_scaled = scaler.transform(features)
             result = model.predict(features_scaled)[0]
