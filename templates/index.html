@@ -1,33 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>House Price Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(120deg, #74ebd5, #9face6);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 12px;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #5c7cfa;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background: #5c7cfa;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #4263eb;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: green;
+            background: #e6fffa;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .error {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: red;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
+
+<div class="card">
     <h2>House Price Prediction</h2>
 
     <form method="POST">
-        <label>BHK:</label>
-        <input type="number" name="bhk" required><br><br>
 
-        <label>Bathrooms:</label>
-        <input type="number" name="bathroom" required><br><br>
+        <label>BHK</label>
+        <input type="number" name="bhk" placeholder="e.g. 2" required>
 
-        <label>Area (sq ft):</label>
-        <input type="number" name="area" required><br><br>
+        <label>Bathrooms</label>
+        <input type="number" name="bathroom" placeholder="e.g. 2" required>
 
-        <label>Location:</label>
-        <input type="text" name="location" required><br><br>
+        <label>Area (in sq ft)</label>
+        <input type="number" name="area" placeholder="e.g. 1200" required>
 
-        <label>Property Type:</label>
-        <input type="text" name="propertytype" required><br><br>
+        <label>Location</label>
+        <input type="text" name="location" placeholder="e.g. Chennai" required>
 
-        <button type="submit">Predict</button>
+        <label>Property Type</label>
+        <input type="text" name="propertytype" placeholder="e.g. Flat / Villa" required>
+
+        <button type="submit">Predict Price</button>
     </form>
 
     {% if prediction %}
-        <h3>Predicted House Price: ₹{{ prediction }}</h3>
+        <div class="result">
+            Predicted House Price: ₹ {{ prediction }}
+        </div>
     {% endif %}
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <footer>
+        Built with Flask & Machine Learning
+    </footer>
+</div>
 
 </body>
 </html>
