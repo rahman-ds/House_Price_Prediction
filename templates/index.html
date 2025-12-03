@@ -105,23 +105,24 @@
 
     <form method="POST">
 
-        <label>BHK</label>
-        <input type="number" name="bhk" placeholder="e.g. 2" required>
+      <label>BHK</label>
+      <input type="number" name="bhk" placeholder="e.g. 2" required>
 
-        <label>Bathrooms</label>
-        <input type="number" name="bathroom" placeholder="e.g. 2" required>
+      <label>Property Type</label>
+      <input type="text" name="propertytype" placeholder="e.g. Flat / Villa" required>
 
-        <label>Area (in sq ft)</label>
-        <input type="number" name="area" placeholder="e.g. 1200" required>
+      <label>Location</label>
+      <input type="text" name="location" placeholder="e.g. Chennai" required>
 
-        <label>Location</label>
-        <input type="text" name="location" placeholder="e.g. Chennai" required>
+      <label>Area (sq ft)</label>
+      <input type="number" name="sqft" placeholder="e.g. 1200" required>
 
-        <label>Property Type</label>
-        <input type="text" name="propertytype" placeholder="e.g. Flat / Villa" required>
+      <label>Price per Sqft</label>
+      <input type="number" name="pricepersqft" placeholder="e.g. 6500" required>
 
-        <button type="submit">Predict Price</button>
+      <button type="submit">Predict Price</button>
     </form>
+
 
     {% if prediction %}
         <div class="result">
