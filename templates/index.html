@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Price Prediction</title>
+</head>
+<body>
+    <h2>Enter House Details (Leave blank if unknown)</h2>
+    <form method="post" action="/predict">
+        BHK: <input type="number" name="bhk" placeholder="Optional"><br><br>
+        Bathrooms: <input type="number" name="bathroom" placeholder="Optional"><br><br>
+        Area (sq ft): <input type="number" name="area" placeholder="Optional"><br><br>
+        Location: <input type="text" name="location" placeholder="Optional"><br><br>
+        Property Type: <input type="text" name="propertytype" placeholder="Optional"><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction_text %}
+        <h3>{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+</html>
+
