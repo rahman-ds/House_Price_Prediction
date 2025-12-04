@@ -10,19 +10,19 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model = joblib.load(os.path.join(BASE_DIR, "model.pkl"))
 scaler = joblib.load(os.path.join(BASE_DIR, "scaler.pkl"))
 
-location_encoder = joblib.load(
-    os.path.join(BASE_DIR, "label_encoders", "location_encoder.pkl")
+property_encoder = joblib.load(
+    os.path.join(BASE_DIR, "label_encoders", "property_encoder.pkl")
 )
 
-# 👇 NOTICE: propertytype_encoder.pkl (correct name)
-property_encoder = joblib.load(
-    os.path.join(BASE_DIR, "label_encoders", "propertytype_encoder.pkl")
+location_encoder = joblib.load(
+    os.path.join(BASE_DIR, "label_encoders", "location_encoder.pkl")
 )
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     prediction = None
     error = None
+    summary = None
 
     if request.method == "POST":
         try:
@@ -32,24 +32,42 @@ def home():
             sqft = float(request.form["sqft"])
             pricepersqft = float(request.form["pricepersqft"])
 
-            # Encode categorical values
+            # Encode categorical features
             property_encoded = property_encoder.transform([property_type])[0]
             location_encoded = location_encoder.transform([location])[0]
 
-            # ✅ Exact order used in training:
-            # ['bhk', 'propertytype', 'location', 'sqft', 'pricepersqft']
-            features = np.array([[bhk, property_encoded, location_encoded, sqft, pricepersqft]])
+            # EXACT ORDER AS TRAINING DATA
+            features = np.array([[
+                bhk,
+                property_encoded,
+                location_encoded,
+                sqft,
+                pricepersqft
+            ]])
 
             features_scaled = scaler.transform(features)
             result = model.predict(features_scaled)[0]
+            prediction = round(result, 2)
 
-            # Format nicely with commas & 2 decimals
-            prediction = f"{result:,.2f}"
+            # BILL STYLE SUMMARY SENT TO HTML
+            summary = {
+                "BHK": bhk,
+                "Property Type": property_type,
+                "Location": location,
+                "Area (sq ft)": sqft,
+                "Price per Sqft": pricepersqft,
+                "Final Price": f"{prediction:,.2f}"
+            }
 
         except Exception as e:
             error = str(e)
 
-    return render_template("index.html", prediction=prediction, error=error)
+    return render_template(
+        "index.html",
+        prediction=prediction,
+        summary=summary,
+        error=error
+    )
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
