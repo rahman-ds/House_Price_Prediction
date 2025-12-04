@@ -70,13 +70,28 @@
 
         .result {
             margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            background: #e6fffa;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .result h3 {
             text-align: center;
-            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            margin: 6px 0;
+        }
+
+        .final-price {
+            margin-top: 10px;
+            font-size: 20px;
             font-weight: bold;
             color: green;
-            background: #e6fffa;
-            padding: 10px;
-            border-radius: 6px;
+            text-align: center;
         }
 
         .error {
@@ -91,37 +106,50 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="card">
     <h2>House Price Prediction</h2>
 
-   <form method="POST">
+    <form method="POST">
 
-      <label>BHK</label>
-      <input type="number" name="bhk" placeholder="e.g. 2" required>
+        <label>BHK</label>
+        <input type="number" name="bhk" placeholder="e.g. 2" required>
 
-      <label>Property Type</label>
-      <input type="text" name="propertytype" placeholder="e.g. Flat / Villa" required>
+        <label>Property Type</label>
+        <input type="text" name="propertytype" placeholder="e.g. Flat / Villa" required>
 
-      <label>Location</label>
-      <input type="text" name="location" placeholder="e.g. Chennai" required>
+        <label>Location</label>
+        <input type="text" name="location" placeholder="e.g. Chennai" required>
 
-      <label>Area (sq ft)</label>
-      <input type="number" name="sqft" placeholder="e.g. 1200" required>
+        <label>Area (sq ft)</label>
+        <input type="number" name="sqft" placeholder="e.g. 1200" required>
 
-      <label>Price per Sqft</label>
-      <input type="number" name="pricepersqft" placeholder="e.g. 6000" required>
+        <label>Price per Sqft</label>
+        <input type="number" name="pricepersqft" placeholder="e.g. 6000" required>
 
-      <button type="submit">Predict Price</button>
-  </form>
+        <button type="submit">Predict Price</button>
+    </form>
 
+    {% if summary %}
+    <div class="result">
+        <h3>Prediction Summary</h3>
+        <hr>
 
+        <p><b>BHK:</b> {{ summary["BHK"] }}</p>
+        <p><b>Property Type:</b> {{ summary["Property Type"] }}</p>
+        <p><b>Location:</b> {{ summary["Location"] }}</p>
+        <p><b>Area (sq ft):</b> {{ summary["Area (sq ft)"] }}</p>
+        <p><b>Price per Sqft:</b> ₹ {{ summary["Price per Sqft"] }}</p>
 
-    {% if prediction %}
-        <div class="result">
-            Predicted House Price: ₹ {{ prediction }}
+        <hr>
+
+        <div class="final-price">
+            Final Predicted Price: <br>
+            ₹ {{ summary["Final Price"] }}
         </div>
+    </div>
     {% endif %}
 
     {% if error %}
